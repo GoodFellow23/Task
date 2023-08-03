@@ -9,78 +9,19 @@ use App\Http\Requests\UpdateHouseRequest;
 class HouseController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\SearchHouseRequest  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(SearchHouseRequest $request)
-    {
-        //
-    }
-
-    /**
      * Display the specified resource.
      *
      * @param  \App\Models\House  $house
      * @return \Illuminate\Http\Response
      */
-    public function show(House $house)
+    public function show(SearchHouseRequest $request)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\House  $house
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(House $house)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateHouseRequest  $request
-     * @param  \App\Models\House  $house
-     * @return \Illuminate\Http\Response
-     */
-    public function update(UpdateHouseRequest $request, House $house)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\House  $house
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(House $house)
-    {
-        //
+        $houses = House::where('name', 'LIKE', $request->get('name'))
+            ->orWhereBetween('price', [$request->get('min'), $request->get('max')])
+            ->orWhere('bedrooms', $request->get('bedrooms'))
+            ->orWhere('bathrooms', $request->get('bathrooms'))
+            ->orWhere('storeys', $request->get('storeys'))
+            ->orWhere('garages', $request->get('garages'))
+            ->get();
     }
 }
